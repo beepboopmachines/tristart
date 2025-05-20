@@ -6,7 +6,7 @@ const admin = require('firebase-admin');
 require('dotenv').config();
 
 // Load Firebase service account key
-const serviceAccount = JSON.parse(fs.readFileSync('serviceAccountKey.json', 'utf8'));
+const serviceAccount = JSON.parse(fs.readFileSync(__dirname + '/serviceAccountKey.json', 'utf8'));
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
