@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ups & Downs</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Font Awesome for the cogwheel icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="gallery-container">
+        <!-- Add settings cogwheel -->
+        <div id="settings-icon" class="settings-icon">
+            <i class="fas fa-cog"></i>
+        </div>
+
+        <!-- Settings panel -->
+        <div id="settings-panel" class="settings-panel">
+            <div class="settings-header">
+                <h2>Settings</h2>
+                <button id="close-settings" class="close-settings">&times;</button>
+            </div>
+
+            <div class="settings-content">
+                <!-- Accessibility Options -->
+                <div class="settings-section">
+                    <h3>Acessibilidade</h3>
+
+                    <!-- For deaf people -->
+                    <div class="setting-option">
+                        <label for="visual-alerts">Modo Sonoro</label>
+                        <input type="checkbox" id="visual-alerts">
+                    </div>
+
+                    <!-- For color blind people -->
+                    <div class="setting-option">
+                        <label for="color-blind-mode">Modo para Daltónicos</label>
+                        <select id="color-blind-mode">
+                            <option value="normal">Desligado</option>
+                            <option value="protanopia">Protanopia</option>
+                            <option value="deuteranopia">Deuteranopia</option>
+                            <option value="tritanopia">Tritanopia</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-option">
+                        <label for="high-contrast">Modo de Contraste</label>
+                        <input type="checkbox" id="high-contrast">
+                    </div>
+                </div>
+
+                <!-- Admin Section -->
+                <div class="settings-section">
+                    <h3>Administrador</h3>
+                    <div id="admin-login" class="admin-login">
+                        <input type="password" id="admin-password" placeholder="Insira palavra-passe de Administrador">
+                        <button id="admin-submit">Login</button>
+                    </div>
+
+                    <div id="admin-panel" class="admin-panel" style="display: none;">
+                        <p>Admin controls will appear here after successful login.</p>
+                        <!-- Admin controls will be added here dynamically after login -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wall1" class="wall">
+            <!-- For painting 1 -->
+            <div id="painting1" class="painting">
+                <div class="painting-outer-frame"></div>
+                <div class="painting-inner-frame">
+                    <img src="SVG/svg1.svg" class="svg-content" alt="Painting 1">
+                </div>
+                <span class="corner-tl"></span>
+                <span class="corner-tr"></span>
+                <span class="corner-bl"></span>
+                <span class="corner-br"></span>
+                <span class="diagonal-tl"></span>
+                <span class="diagonal-tr"></span>
+                <span class="diagonal-bl"></span>
+                <span class="diagonal-br"></span>
+            </div>
+            <!-- For painting 2 -->
+            <div id="painting2" class="painting">
+                <div class="painting-outer-frame"></div>
+                <div class="painting-inner-frame">
+                    <img src="SVG/svg2.svg" class="svg-content" alt="Painting 2">
+                </div>
+                <span class="corner-tl"></span>
+                <span class="corner-tr"></span>
+                <span class="corner-bl"></span>
+                <span class="corner-br"></span>
+                <span class="diagonal-tl"></span>
+                <span class="diagonal-tr"></span>
+                <span class="diagonal-bl"></span>
+                <span class="diagonal-br"></span>
+            </div>
+            <!-- For painting 3 -->
+            <div id="painting3" class="painting">
+                <div class="painting-outer-frame"></div>
+                <div class="painting-inner-frame">
+                    <img src="SVG/svg3.svg" class="svg-content" alt="Painting 3">
+                </div>
+                <span class="corner-tl"></span>
+                <span class="corner-tr"></span>
+                <span class="corner-bl"></span>
+                <span class="corner-br"></span>
+                <span class="diagonal-tl"></span>
+                <span class="diagonal-tr"></span>
+                <span class="diagonal-bl"></span>
+                <span class="diagonal-br"></span>
+            </div>
+        </div>
+
+        <div id="wall2" class="wall">
+            <div id="painting4" class="painting">
+                <div class="painting-outer-frame"></div>
+                <div class="painting-inner-frame">
+                    <img src="SVG/svg4.svg" class="svg-content" alt="Painting 4">
+                </div>
+                <span class="corner-tl"></span>
+                <span class="corner-tr"></span>
+                <span class="corner-bl"></span>
+                <span class="corner-br"></span>
+                <span class="diagonal-tl"></span>
+                <span class="diagonal-tr"></span>
+                <span class="diagonal-bl"></span>
+                <span class="diagonal-br"></span>
+            </div>
+            <div id="painting5" class="painting">
+                <div class="painting-outer-frame"></div>
+                <div class="painting-inner-frame">
+                    <img src="SVG/svg5.svg" class="svg-content" alt="Painting 5">
+                </div>
+                <span class="corner-tl"></span>
+                <span class="corner-tr"></span>
+                <span class="corner-bl"></span>
+                <span class="corner-br"></span>
+                <span class="diagonal-tl"></span>
+                <span class="diagonal-tr"></span>
+                <span class="diagonal-bl"></span>
+                <span class="diagonal-br"></span>
+            </div>
+        </div>
+
+        <div class="navigation right-nav" id="navButton">
+            <div class="arrow right-arrow"></div>
+        </div>
+
+        <div class="navigation left-nav" id="backButton" style="display: none;">
+            <div class="arrow left-arrow"></div>
+        </div>
+
+        <div class="wall-indicator">
+            <div class="dot active" id="dot1"></div>
+            <div class="dot" id="dot2"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

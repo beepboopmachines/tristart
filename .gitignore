@@ -1,0 +1,12 @@
+# Firebase private key
+serviceAccountKey.json
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+
+# OS/system files (optional but useful)
+.DS_Store
+Thumbs.db

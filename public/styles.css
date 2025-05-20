@@ -1,0 +1,715 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.gallery-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: calc(100vh * (16/9));
+    max-height: calc(100vw * (9/16));
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Add baseboard at the bottom of the gallery */
+.gallery-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 8%;
+    border-top: solid 1px white;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+/* Update the wall styling for animations */
+.wall {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.08vw;
+    /* 40px at 1920px width */
+    transition: transform 0.5s ease-in-out;
+}
+
+#wall1 {
+    transform: translateX(0);
+}
+
+#wall2 {
+    transform: translateX(100%);
+    display: flex;
+    /* Important: Always display but off-screen */
+}
+
+/* Wall transition classes */
+.slide-left {
+    transform: translateX(-100%) !important;
+}
+
+.slide-right {
+    transform: translateX(100%) !important;
+}
+
+.slide-center {
+    transform: translateX(0) !important;
+}
+
+.painting {
+    width: 30%;
+    height: 38%;
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 11%;
+    transition: transform 0.3s ease;
+    /* Add smooth transition */
+}
+
+/* Add hover effect to make paintings slightly bigger */
+.painting:hover {
+    transform: scale(1.05);
+    /* Make painting 5% larger on hover */
+    z-index: 10;
+    /* Ensure it appears above other paintings */
+}
+
+/* Adjust the focused painting to override the hover effect */
+.focused-painting:hover {
+    transform: scale(1);
+    /* Don't apply additional scaling to focused painting */
+}
+
+/* Remove the conflicting rule that disables ::after */
+/* .painting::before,
+.painting::after {
+    content: none;
+} */
+
+/* Hide labels in focused view */
+.focused-painting .painting-label {
+    display: none;
+}
+
+.painting::after {
+    content: attr(data-label);
+
+    /* Add painting label styling */
+    .painting-label {
+        position: absolute;
+        bottom: -40px;
+        /* Increase this value to move labels further down */
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 1);
+        pointer-events: none;
+    }
+
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 1);
+    pointer-events: none;
+}
+
+.painting-outer-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid rgba(255, 255, 255, 1);
+    pointer-events: none;
+}
+
+
+.painting-inner-frame {
+    position: absolute;
+    top: 8.2%;
+    left: 5.7%;
+    right: 5.7%;
+    bottom: 8.2%;
+    border: 1px solid rgba(255, 255, 255, 1);
+    background-color: transparent;
+    /* Changed from #010b18 to transparent */
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* SVG content styling */
+.svg-content {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-color: transparent;
+}
+
+/* PNG container styling */
+.png-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+/* PNG content styling */
+.png-content {
+    max-width: 115%;
+    max-height: 115%;
+    object-fit: contain;
+    /* This preserves aspect ratio */
+    pointer-events: none;
+    background-color: transparent;
+}
+
+/* Focused painting styling */
+.focused-painting {
+    transform: scale(1.5);
+    /* Make the focused painting larger */
+}
+
+/* Simplify the frame structure to avoid artifacts */
+.painting {
+    position: relative;
+}
+
+/* Top-right corner */
+.painting>.corner-tr {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5.7%;
+    height: 8.2%;
+    border-top: 1px solid rgba(255, 255, 255, 1);
+    border-right: 1px solid rgba(255, 255, 255, 1);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Bottom-left corner */
+.painting>.corner-bl {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 5.7%;
+    height: 8.2%;
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    border-left: 1px solid rgba(255, 255, 255, 1);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Bottom-right corner */
+.painting>.corner-br {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 5.7%;
+    height: 8.2%;
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    border-right: 1px solid rgba(255, 255, 255, 1);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Top-left corner - fixed to avoid the artifact */
+.painting>.corner-tl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5.7%;
+    height: 8.2%;
+    border-top: 1px solid rgba(255, 255, 255, 1);
+    border-left: 1px solid rgba(255, 255, 2551);
+    pointer-events: none;
+    z-index: 2;
+    background-color: transparent;
+}
+
+/* Diagonal lines */
+.painting>.diagonal-tl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5.7%;
+    height: 8.2%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+    background-color: transparent;
+}
+
+.painting>.diagonal-tl::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 141%;
+    /* Calculated for the diagonal */
+    height: 1px;
+    background-color: rgba(255, 255, 255, 1);
+    transform-origin: top left;
+    transform: rotate(45deg);
+}
+
+.painting>.diagonal-tr {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5.7%;
+    height: 8.2%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.painting>.diagonal-tr::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 141%;
+    /* Calculated for the diagonal */
+    height: 1px;
+    background-color: rgba(255, 255, 255, 1);
+    transform-origin: top right;
+    transform: rotate(-45deg);
+}
+
+.painting>.diagonal-bl {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 5.7%;
+    height: 8.2%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.painting>.diagonal-bl::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 141%;
+    /* Calculated for the diagonal */
+    height: 1px;
+    background-color: rgba(255, 255, 255, 1);
+    transform-origin: bottom left;
+    transform: rotate(-45deg);
+}
+
+.painting>.diagonal-br {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 5.7%;
+    height: 8.2%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.painting>.diagonal-br::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 141%;
+    /* Calculated for the diagonal */
+    height: 1px;
+    background-color: rgba(255, 255, 255, 1);
+    transform-origin: bottom right;
+    transform: rotate(45deg);
+}
+
+.color-picker {
+    position: absolute;
+    bottom: -4.63%;
+    /* -50px at 1080px height */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.painting.active .color-picker {
+    opacity: 1;
+}
+
+.navigation {
+    position: absolute;
+    width: 2.6%;
+    /* 50px at 1920px width */
+    height: 4.63%;
+    /* 50px at 1080px height */
+    background-color: transparent;
+    /* Make transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.right-nav {
+    right: 2.6%;
+    /* 50px at 1920px width */
+    bottom: 13%;
+    /* Increased from 4.63% to position above the baseboard */
+}
+
+.left-nav {
+    left: 2.6%;
+    /* 50px at 1920px width */
+    bottom: 13%;
+    /* Increased from 4.63% to position above the baseboard */
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+}
+
+.right-arrow {
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 25px solid white;
+}
+
+.left-arrow {
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 25px solid white;
+}
+
+.wall-indicator {
+    position: absolute;
+    bottom: 1.85%;
+    /* 20px at 1080px height */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.52vw;
+    /* 10px at 1920px width */
+}
+
+/* Add these styles to your existing CSS */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.focused-painting-container {
+    position: relative;
+    width: 70%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.close-button:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+.focused-painting {
+    width: 60% !important;
+    height: 60% !important;
+    margin: 0 !important;
+    transform: scale(0.5);
+    animation: focus-animation 0.5s forwards;
+}
+
+.painting-info {
+    width: 60%;
+    margin-top: 20px;
+    color: white;
+    text-align: center;
+}
+
+.painting-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.painting-description {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+@keyframes focus-animation {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Remove color picker styles since we're not using them anymore */
+.color-picker {
+    display: none;
+}
+
+.dot {
+    width: 10px;
+    /* Fixed width in pixels instead of vw */
+    height: 10px;
+    /* Fixed height in pixels instead of vh */
+    border-radius: 50%;
+    background-color: #555;
+}
+
+.dot.active {
+    background-color: white;
+}
+
+/* Add this to ensure proper scaling */
+@media (min-aspect-ratio: 16/9) {
+    .gallery-container {
+        width: calc(100vh * (16/9));
+        height: 100vh;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .gallery-container {
+        width: 100vw;
+        height: calc(100vw * (9/16));
+    }
+}
+
+/* Add this to your existing CSS */
+.no-animation {
+    animation: none !important;
+    transform: scale(1) !important;
+}
+
+/* Settings Icon */
+.settings-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: transform 0.3s ease;
+}
+
+.settings-icon i {
+    color: white;
+    font-size: 20px;
+}
+
+.settings-icon:hover {
+    transform: rotate(30deg);
+}
+
+/* Settings Panel */
+.settings-panel {
+    position: absolute;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: #222;
+    border-left: 1px solid #444;
+    z-index: 101;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
+.settings-panel.active {
+    right: 0;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #444;
+}
+
+.settings-header h2 {
+    margin: 0;
+    color: white;
+    font-size: 18px;
+}
+
+.close-settings {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.settings-content {
+    padding: 15px;
+}
+
+.settings-section {
+    margin-bottom: 25px;
+}
+
+.settings-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 16px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.setting-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.setting-option label {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.setting-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+.setting-option select {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+/* Admin section */
+.admin-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-login input {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 8px;
+    border-radius: 3px;
+}
+
+.admin-login button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.admin-login button:hover {
+    background-color: #555;
+}
+
+.admin-panel {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 3px;
+}
+
+/* High contrast mode */
+.high-contrast {
+    filter: contrast(150%);
+}
+
+/* Color blind modes */
+.protanopia {
+    filter: url('#protanopia-filter');
+}
+
+.deuteranopia {
+    filter: url('#deuteranopia-filter');
+}
+
+.tritanopia {
+    filter: url('#tritanopia-filter');
+}
+
+/* Add SVG filters for color blindness at the end of your body */
