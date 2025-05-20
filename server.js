@@ -83,6 +83,9 @@ httpServer.listen(3000, () => {
 
 // Firebase listener to send LED changes to Arduino
 const ledsRef = db.ref('leds');
+ledsRef.once('value').then(snapshot => {
+  console.log("Initial read of /leds:", snapshot.val());
+});
 
 ledsRef.on('child_changed', (snapshot) => {
   if (!arduinoSocket) return;
