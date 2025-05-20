@@ -4,6 +4,7 @@ const path = require('path');
 const net = require('net');
 const admin = require('firebase-admin');
 require('dotenv').config();
+console.log("FIREBASE_DATABASE_URL:", process.env.FIREBASE_DATABASE_URL);
 
 // Load Firebase service account key
 const serviceAccount = JSON.parse(fs.readFileSync(__dirname + '/serviceAccountKey.json', 'utf8'));
