@@ -83,18 +83,38 @@ httpServer.listen(3000, () => {
 
 // Firebase listener to send LED changes to Arduino
 const ledsRef = db.ref('leds');
+
+// Initial read (for diagnostics)
 ledsRef.once('value').then(snapshot => {
   console.log("Initial read of /leds:", snapshot.val());
 });
 
+// Real-time updates: trigger when a specific LED is changed
 ledsRef.on('child_changed', (snapshot) => {
-  if (!arduinoSocket) return;
+  console.log("child_changed triggered");
+
+  if (!arduinoSocket) {
+    console.log("Arduino not connected.");
+    return;
+  }
 
   const led = snapshot.key; // e.g., "led3"
   const { r, g, b } = snapshot.val();
-  const ledNumber = led.replace('led', ''); // extract number only
+
+  if (r == null || g == null || b == null) {
+    console.log("Invalid payload received:", snapshot.val());
+    return;
+  }
+
+  const ledNumber = led.replace('led', '');
   const payload = `${ledNumber},${r},${g},${b}\n`;
 
   console.log("Sending to Arduino:", payload);
   arduinoSocket.write(payload);
+});
+
+// Optional: fallback listener to confirm that something is firing
+// You can remove this later if child_changed works fine
+ledsRef.on('value', (snapshot) => {
+  console.log("on('value') update detected.");
 });
