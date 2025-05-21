@@ -13,13 +13,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Define startup colors globally
+// Define startup colors globally (1: pink, 2: blue, 3: pink, 4: blue, 5: pink)
 const startupColors = [
-  { r: 255, g: 0,   b: 0   }, // Red
-  { r: 255, g: 255, b: 0   }, // Yellow
-  { r: 0,   g: 255, b: 0   }, // Green
-  { r: 0,   g: 0,   b: 255 }, // Blue
-  { r: 255, g: 0,   b: 255 }  // Purple
+  { r: 255, g: 192, b: 203 }, // Pink
+  { r:   0, g:   0, b: 255 }, // Blue
+  { r: 255, g: 192, b: 203 }, // Pink
+  { r:   0, g:   0, b: 255 }, // Blue
+  { r: 255, g: 192, b: 203 }  // Pink
 ];
 
 // Turn ON all LEDs when the page loads
