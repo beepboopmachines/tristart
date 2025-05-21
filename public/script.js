@@ -2,23 +2,23 @@
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyBZk10z5LS74wqzZBurrhZtZj-8nONheyQ",
+apiKey: "AIzaSyBZk10z5LS74wqzZBurrhZtZj-8nONheyQ",
 
-    authDomain: "downsups-16929.firebaseapp.com",
+authDomain: "downsups-16929.firebaseapp.com",
 
-    databaseURL: "https://downsups-16929-default-rtdb.europe-west1.firebasedatabase.app",
+databaseURL: "https://downsups-16929-default-rtdb.europe-west1.firebasedatabase.app",
 
-    projectId: "downsups-16929",
+projectId: "downsups-16929",
 
-    storageBucket: "downsups-16929.firebasestorage.app",
+storageBucket: "downsups-16929.firebasestorage.app",
 
-    messagingSenderId: "866781219435",
+messagingSenderId: "866781219435",
 
-    appId: "1:866781219435:web:160633215e96d5812d7f2e"
+appId: "1:866781219435:web:160633215e96d5812d7f2e"
 
 };
 
-
+  
 
 // Initialize Firebase
 
@@ -26,28 +26,25 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
 
+  
 
+// Turn off all LEDs when the page loads
 
-// Turn on all LEDs when the page loads
 window.addEventListener('load', () => {
-    // Turn on all LEDs with different colors (assuming you have 5 LEDs)
-    const colors = [
-        { r: 255, g: 0, b: 0 },     // Red
-        { r: 255, g: 255, b: 0 },   // Yellow
-        { r: 0, g: 255, b: 0 },     // Green
-        { r: 0, g: 0, b: 255 },     // Blue
-        { r: 255, g: 0, b: 255 }    // Purple
-    ];
-    
-    for (let i = 1; i <= 5; i++) {
-        const ledColor = colors[(i - 1) % colors.length];
-        db.ref(`leds/led${i}`).set(ledColor);
-    }
-    
-    console.log("All LEDs turned on with colors on page load");
+
+// Turn off all LEDs (assuming you have 5 LEDs)
+
+for (let i = 1; i <= 5; i++) {
+
+db.ref(`leds/led${i}`).set({ r: 0, g: 0, b: 0 });
+
+}
+
+console.log("All LEDs turned off on page load");
+
 });
 
-
+  
 
 // Handle wall navigation
 
@@ -65,7 +62,7 @@ const dot2 = document.getElementById('dot2');
 
 let currentWall = 1;
 
-
+  
 
 // Create overlay for focused painting view
 
@@ -75,693 +72,713 @@ overlay.className = 'overlay';
 
 document.querySelector('.gallery-container').appendChild(overlay);
 
-
+  
 
 // Painting information
 
 const paintingInfo = [
 
-    {
+{
 
-        title: "O que é a síndrome de Down?",
+title: "O que é a síndrome de Down?",
 
-        description: "A síndrome de Down é uma condição genética causada pela presença de três cópias do cromossomo 21 (em vez de duas). Sendo assim conhecida como trissomia 21. Ela ocorre de forma natural, geralmente no momento da concepção, e não é causada por nada que os pais tenham feito ou deixado de fazer."
+description: "A síndrome de Down é uma condição genética causada pela presença de três cópias do cromossomo 21 (em vez de duas). Sendo assim conhecida como trissomia 21. Ela ocorre de forma natural, geralmente no momento da concepção, e não é causada por nada que os pais tenham feito ou deixado de fazer."
 
-    },
+},
 
-    {
+{
 
-        title: "Capacidades",
+title: "Capacidades",
 
-        description: "This yellow-green composition represents growth and renewal. Inspired by spring meadows, it captures the essence of new beginnings and the gentle awakening of nature."
+description: "This yellow-green composition represents growth and renewal. Inspired by spring meadows, it captures the essence of new beginnings and the gentle awakening of nature."
 
-    },
+},
 
-    {
+{
 
-        title: "Dificuldades",
+title: "Dificuldades",
 
-        description: "A meditation on harmony and balance through various shades of green. This work connects viewers to the calming influence of nature and the restorative power of verdant landscapes."
+description: "A meditation on harmony and balance through various shades of green. This work connects viewers to the calming influence of nature and the restorative power of verdant landscapes."
 
-    },
+},
 
-    {
+{
 
-        title: "Azure Depths",
+title: "Azure Depths",
 
-        description: "This blue composition explores themes of tranquility and introspection. Like gazing into deep waters, it invites the viewer to look inward and find moments of peace."
+description: "This blue composition explores themes of tranquility and introspection. Like gazing into deep waters, it invites the viewer to look inward and find moments of peace."
 
-    },
+},
 
-    {
+{
 
-        title: "Violet Whispers",
+title: "Violet Whispers",
 
-        description: "A delicate study of purple tones that bridges the gap between warm and cool colors. This piece represents the mystical and the transformative aspects of artistic expression."
+description: "A delicate study of purple tones that bridges the gap between warm and cool colors. This piece represents the mystical and the transformative aspects of artistic expression."
 
-    }
+}
 
 ];
 
-
+  
 
 // Forward navigation (to wall 2)
 
 navButton.addEventListener('click', () => {
 
-    if (currentWall === 1) {
+if (currentWall === 1) {
 
-        // Apply sliding animation
+// Apply sliding animation
 
-        wall1.classList.remove('slide-center'); // Remove any previous center position
+wall1.classList.remove('slide-center'); // Remove any previous center position
 
-        wall1.classList.add('slide-left');
+wall1.classList.add('slide-left');
 
-        wall2.classList.remove('slide-right'); // Remove any previous right slide
+wall2.classList.remove('slide-right'); // Remove any previous right slide
 
-        wall2.classList.add('slide-center');
+wall2.classList.add('slide-center');
 
+  
 
+// Update navigation after animation completes
 
-        // Update navigation after animation completes
+setTimeout(() => {
 
-        setTimeout(() => {
+navButton.style.display = 'none';
 
-            navButton.style.display = 'none';
+backButton.style.display = 'flex';
 
-            backButton.style.display = 'flex';
+dot1.classList.remove('active');
 
-            dot1.classList.remove('active');
+dot2.classList.add('active');
 
-            dot2.classList.add('active');
+currentWall = 2;
 
-            currentWall = 2;
+}, 500); // Match this to the transition duration in CSS
 
-        }, 500); // Match this to the transition duration in CSS
-
-    }
+}
 
 });
 
-
+  
 
 // Back navigation (to wall 1)
 
 backButton.addEventListener('click', () => {
 
-    if (currentWall === 2) {
+if (currentWall === 2) {
 
-        // Apply sliding animation
+// Apply sliding animation
 
-        wall2.classList.remove('slide-center'); // Remove center position
+wall2.classList.remove('slide-center'); // Remove center position
 
-        wall2.classList.add('slide-right');
+wall2.classList.add('slide-right');
 
-        wall1.classList.remove('slide-left'); // Remove left position
+wall1.classList.remove('slide-left'); // Remove left position
 
-        wall1.classList.add('slide-center');
+wall1.classList.add('slide-center');
 
+  
 
+// Update navigation after animation completes
 
-        // Update navigation after animation completes
+setTimeout(() => {
 
-        setTimeout(() => {
+backButton.style.display = 'none';
 
-            backButton.style.display = 'none';
+navButton.style.display = 'flex';
 
-            navButton.style.display = 'flex';
+dot2.classList.remove('active');
 
-            dot2.classList.remove('active');
+dot1.classList.add('active');
 
-            dot1.classList.add('active');
+currentWall = 1;
 
-            currentWall = 1;
+}, 500); // Match this to the transition duration in CSS
 
-        }, 500); // Match this to the transition duration in CSS
-
-    }
+}
 
 });
 
-
+  
 
 // Track currently active LED
 
 let activeLedId = null;
 
-
+  
 
 // Handle paintings
 
 for (let i = 1; i <= 5; i++) {
 
-    const painting = document.getElementById(`painting${i}`);
+const painting = document.getElementById(`painting${i}`);
 
-    const innerFrame = painting.querySelector('.painting-inner-frame');
+const innerFrame = painting.querySelector('.painting-inner-frame');
 
+  
 
+// Remove color picker elements if they exist
 
-    // Remove color picker elements if they exist
+const colorPicker = painting.querySelector('.color-picker');
 
-    const colorPicker = painting.querySelector('.color-picker');
+if (colorPicker) {
 
-    if (colorPicker) {
+colorPicker.remove();
 
-        colorPicker.remove();
+}
 
-    }
+  
 
+// Set initial color from Firebase (just for display)
 
+db.ref(`leds/led${i}`).once('value').then((snapshot) => {
 
-    // Set initial color from Firebase (just for display)
+if (snapshot.exists()) {
 
-    db.ref(`leds/led${i}`).once('value').then((snapshot) => {
+const { r, g, b } = snapshot.val();
 
-        if (snapshot.exists()) {
+// Don't set the background color here to keep it transparent
 
-            const { r, g, b } = snapshot.val();
+// innerFrame.style.backgroundColor = hex;
 
-            // Don't set the background color here to keep it transparent
+}
 
-            // innerFrame.style.backgroundColor = hex;
+});
 
-        }
+  
 
-    });
+// Update when Firebase changes
 
+db.ref(`leds/led${i}`).on('value', (snapshot) => {
 
+if (snapshot.exists()) {
 
-    // Update when Firebase changes
+const { r, g, b } = snapshot.val();
 
-    db.ref(`leds/led${i}`).on('value', (snapshot) => {
+// Don't set the background color here to keep it transparent
 
-        if (snapshot.exists()) {
+// innerFrame.style.backgroundColor = hex;
 
-            const { r, g, b } = snapshot.val();
+}
 
-            // Don't set the background color here to keep it transparent
+});
 
-            // innerFrame.style.backgroundColor = hex;
+  
 
-        }
+// Handle painting click to turn on LED and show focused view
 
-    });
+painting.addEventListener('click', (event) => {
 
+event.stopPropagation();
 
+  
 
-    // Handle painting click to turn on LED and show focused view
-    painting.addEventListener('click', (event) => {
-        event.stopPropagation();
+// Turn off previously active LED if any
 
-        // Turn off previously active LED if any
-        if (activeLedId !== null) {
-            db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
-        }
+if (activeLedId !== null) {
 
-        // Turn on this LED with a color
-        const colors = [
-            { r: 255, g: 0, b: 0 }, // Red
-            { r: 255, g: 255, b: 0 }, // Yellow
-            { r: 0, g: 255, b: 0 }, // Green
-            { r: 0, g: 0, b: 255 }, // Blue
-            { r: 255, g: 0, b: 255 } // Purple
-        ];
+db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
 
-        // Map painting number to LED number, swapping 2 and 3
-        let ledNumber = i;
-        if (i === 2) ledNumber = 3;
-        else if (i === 3) ledNumber = 2;
+}
 
-        const ledColor = colors[(i - 1) % colors.length];
-        db.ref(`leds/led${ledNumber}`).set(ledColor);
-        activeLedId = ledNumber;
+  
 
+// Turn on this LED with a color
 
+const colors = [
 
-        // Clear any existing focused paintings
+{ r: 255, g: 0, b: 0 }, // Red
 
-        overlay.innerHTML = '';
+{ r: 255, g: 255, b: 0 }, // Yellow
 
+{ r: 0, g: 255, b: 0 }, // Green
 
+{ r: 0, g: 0, b: 255 }, // Blue
 
-        // Create container for focused painting and info
+{ r: 255, g: 0, b: 255 } // Purple
 
-        const container = document.createElement('div');
+];
 
-        container.className = 'focused-painting-container';
+  
 
+const ledColor = colors[(i - 1) % colors.length];
 
+db.ref(`leds/led${i}`).set(ledColor);
 
-        // Create a clone of the painting for the focused view
+activeLedId = i;
 
-        const paintingClone = painting.cloneNode(true);
+  
 
-        paintingClone.classList.add('focused-painting');
+// Clear any existing focused paintings
 
+overlay.innerHTML = '';
 
+  
 
-        // Remove the label from the clone
+// Create container for focused painting and info
 
-        const labelElement = paintingClone.querySelector('.painting-label');
+const container = document.createElement('div');
 
-        if (labelElement) {
+container.className = 'focused-painting-container';
 
-            labelElement.remove();
+  
 
-        }
+// Create a clone of the painting for the focused view
 
+const paintingClone = painting.cloneNode(true);
 
+paintingClone.classList.add('focused-painting');
 
-        // Replace SVG with PNG in the focused view
+  
 
-        const innerFrameClone = paintingClone.querySelector('.painting-inner-frame');
+// Remove the label from the clone
 
-        innerFrameClone.innerHTML = '';
+const labelElement = paintingClone.querySelector('.painting-label');
 
-        innerFrameClone.classList.add('png-container'); // Add a class for PNG-specific styling
+if (labelElement) {
 
+labelElement.remove();
 
+}
 
-        const pngImage = document.createElement('img');
+  
 
-        pngImage.src = `PNG/png${i}.png`;
+// Replace SVG with PNG in the focused view
 
-        pngImage.className = 'png-content'; // Use a different class for PNG images
+const innerFrameClone = paintingClone.querySelector('.painting-inner-frame');
 
-        pngImage.alt = `Painting ${i}`;
+innerFrameClone.innerHTML = '';
 
-        innerFrameClone.appendChild(pngImage);
+innerFrameClone.classList.add('png-container'); // Add a class for PNG-specific styling
 
+  
 
+const pngImage = document.createElement('img');
 
-        container.appendChild(paintingClone);
+pngImage.src = `PNG/png${i}.png`;
 
+pngImage.className = 'png-content'; // Use a different class for PNG images
 
+pngImage.alt = `Painting ${i}`;
 
-        // Add painting information
+innerFrameClone.appendChild(pngImage);
 
-        const infoDiv = document.createElement('div');
+  
 
-        infoDiv.className = 'painting-info';
+container.appendChild(paintingClone);
 
+  
 
+// Add painting information
 
-        const titleElement = document.createElement('h2');
+const infoDiv = document.createElement('div');
 
-        titleElement.className = 'painting-title';
+infoDiv.className = 'painting-info';
 
-        titleElement.textContent = paintingInfo[i - 1].title;
+  
 
-        infoDiv.appendChild(titleElement);
+const titleElement = document.createElement('h2');
 
+titleElement.className = 'painting-title';
 
+titleElement.textContent = paintingInfo[i - 1].title;
 
-        const descElement = document.createElement('p');
+infoDiv.appendChild(titleElement);
 
-        descElement.className = 'painting-description';
+  
 
-        descElement.textContent = paintingInfo[i - 1].description;
+const descElement = document.createElement('p');
 
-        infoDiv.appendChild(descElement);
+descElement.className = 'painting-description';
 
+descElement.textContent = paintingInfo[i - 1].description;
 
+infoDiv.appendChild(descElement);
 
-        // Add close button
+  
 
-        const closeButton = document.createElement('button');
+// Add close button
 
-        closeButton.className = 'close-button';
+const closeButton = document.createElement('button');
 
-        closeButton.innerHTML = '&times;';
+closeButton.className = 'close-button';
 
-        closeButton.addEventListener('click', (e) => {
+closeButton.innerHTML = '&times;';
 
-            e.stopPropagation();
+closeButton.addEventListener('click', (e) => {
 
-            overlay.classList.remove('active');
+e.stopPropagation();
 
-            setTimeout(() => {
+overlay.classList.remove('active');
 
-                overlay.style.display = 'none';
+setTimeout(() => {
 
-                overlay.innerHTML = '';
+overlay.style.display = 'none';
 
-            }, 300);
+overlay.innerHTML = '';
 
+}, 300);
 
+  
 
-            // Turn on all LEDs with their respective colors when closing
-            const colors = [
-                { r: 255, g: 0, b: 0 },     // Red
-                { r: 255, g: 255, b: 0 },   // Yellow
-                { r: 0, g: 255, b: 0 },     // Green
-                { r: 0, g: 0, b: 255 },     // Blue
-                { r: 255, g: 0, b: 255 }    // Purple
-            ];
-            
-            // Turn on all LEDs
-            for (let i = 1; i <= 5; i++) {
-                const ledColor = colors[(i - 1) % colors.length];
-                db.ref(`leds/led${i}`).set(ledColor);
-            }
-            
-            console.log("All LEDs turned on when closing focus mode");
-            activeLedId = null;
+// Turn off LED when closing
 
-        });
+if (activeLedId !== null) {
 
+db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
 
+activeLedId = null;
 
-        container.appendChild(closeButton);
+}
 
-        container.appendChild(infoDiv);
+});
 
-        overlay.appendChild(container);
+  
 
+container.appendChild(closeButton);
 
+container.appendChild(infoDiv);
 
-        // Show the overlay
+overlay.appendChild(container);
 
-        overlay.style.display = 'flex';
+  
 
-        setTimeout(() => {
+// Show the overlay
 
-            overlay.classList.add('active');
+overlay.style.display = 'flex';
 
-        }, 10);
+setTimeout(() => {
 
+overlay.classList.add('active');
 
+}, 10);
 
-        // Add keyboard navigation for focus mode
+  
 
-        const handleKeyNavigation = (event) => {
+// Add keyboard navigation for focus mode
 
-            if (!overlay.classList.contains('active')) return;
+const handleKeyNavigation = (event) => {
 
+if (!overlay.classList.contains('active')) return;
 
+  
 
-            let nextPaintingId = null;
+let nextPaintingId = null;
 
+  
 
+if (event.key === 'ArrowRight') {
 
-            if (event.key === 'ArrowRight') {
+// Navigate to next painting
 
-                // Navigate to next painting
+nextPaintingId = activeLedId < 5 ? activeLedId + 1 : null;
 
-                nextPaintingId = activeLedId < 5 ? activeLedId + 1 : null;
+  
 
+// If we're at the end of wall1 and wall2 exists, move to wall2
 
+if (activeLedId === 3 && currentWall === 1) {
 
-                // If we're at the end of wall1 and wall2 exists, move to wall2
+// Simulate click on navigation button to wall2
 
-                if (activeLedId === 3 && currentWall === 1) {
+navButton.click();
 
-                    // Simulate click on navigation button to wall2
+nextPaintingId = 4;
 
-                    navButton.click();
+}
 
-                    nextPaintingId = 4;
+} else if (event.key === 'ArrowLeft') {
 
-                }
+// Navigate to previous painting
 
-            } else if (event.key === 'ArrowLeft') {
+nextPaintingId = activeLedId > 1 ? activeLedId - 1 : null;
 
-                // Navigate to previous painting
+  
 
-                nextPaintingId = activeLedId > 1 ? activeLedId - 1 : null;
+// If we're at the start of wall2 and wall1 exists, move to wall1
 
+if (activeLedId === 4 && currentWall === 2) {
 
+// Simulate click on back button to wall1
 
-                // If we're at the start of wall2 and wall1 exists, move to wall1
+backButton.click();
 
-                if (activeLedId === 4 && currentWall === 2) {
+nextPaintingId = 3;
 
-                    // Simulate click on back button to wall1
+}
 
-                    backButton.click();
+}
 
-                    nextPaintingId = 3;
+  
 
-                }
+// If we have a valid next painting, simulate a click on it
 
-            }
+if (nextPaintingId) {
 
+// Turn off current LED
 
+if (activeLedId !== null) {
 
-            // If we have a valid next painting, simulate a click on it
+db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
 
-            if (nextPaintingId) {
+}
 
-                // Turn off current LED
+// Turn on the next LED directly without animation
 
-                if (activeLedId !== null) {
+const colors = [
 
-                    db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
+{ r: 255, g: 0, b: 0 }, // Red
 
-                }
+{ r: 255, g: 255, b: 0 }, // Yellow
 
-                // Turn on the next LED directly without animation
-                const colors = [
-                    { r: 255, g: 0, b: 0 }, // Red
-                    { r: 255, g: 255, b: 0 }, // Yellow
-                    { r: 0, g: 255, b: 0 }, // Green
-                    { r: 0, g: 0, b: 255 }, // Blue
-                    { r: 255, g: 0, b: 255 } // Purple
-                ];
-                // Map painting number to LED number, swapping 2 and 3
-                let ledNumber = nextPaintingId;
-                if (nextPaintingId === 2) ledNumber = 3;
-                else if (nextPaintingId === 3) ledNumber = 2;
+{ r: 0, g: 255, b: 0 }, // Green
 
-                const ledColor = colors[(nextPaintingId - 1) % colors.length];
-                db.ref(`leds/led${ledNumber}`).set(ledColor);
-                activeLedId = ledNumber;
+{ r: 0, g: 0, b: 255 }, // Blue
 
-                // Update the overlay content directly without animation
+{ r: 255, g: 0, b: 255 } // Purple
 
-                const nextPainting = document.getElementById(`painting${nextPaintingId}`);
+];
 
-                // Clear existing content
+const ledColor = colors[(nextPaintingId - 1) % colors.length];
 
-                overlay.innerHTML = '';
+db.ref(`leds/led${nextPaintingId}`).set(ledColor);
 
-                // Create new container
+activeLedId = nextPaintingId;
 
-                const container = document.createElement('div');
+// Update the overlay content directly without animation
 
-                container.className = 'focused-painting-container';
+const nextPainting = document.getElementById(`painting${nextPaintingId}`);
 
-                // Create a clone of the painting for the focused view
+// Clear existing content
 
-                const paintingClone = nextPainting.cloneNode(true);
+overlay.innerHTML = '';
 
-                paintingClone.classList.add('focused-painting');
+// Create new container
 
-                paintingClone.classList.add('no-animation'); // Add class to disable animation
+const container = document.createElement('div');
 
-                // Remove the label from the clone
+container.className = 'focused-painting-container';
 
-                const labelElement = paintingClone.querySelector('.painting-label');
+// Create a clone of the painting for the focused view
 
-                if (labelElement) {
+const paintingClone = nextPainting.cloneNode(true);
 
-                    labelElement.remove();
+paintingClone.classList.add('focused-painting');
 
-                }
+paintingClone.classList.add('no-animation'); // Add class to disable animation
 
-                // Replace SVG with PNG in the focused view
+// Remove the label from the clone
 
-                const innerFrameClone = paintingClone.querySelector('.painting-inner-frame');
+const labelElement = paintingClone.querySelector('.painting-label');
 
-                innerFrameClone.innerHTML = '';
+if (labelElement) {
 
-                innerFrameClone.classList.add('png-container');
+labelElement.remove();
 
-                const pngImage = document.createElement('img');
+}
 
-                pngImage.src = `PNG/png${nextPaintingId}.png`;
+// Replace SVG with PNG in the focused view
 
-                pngImage.className = 'png-content';
+const innerFrameClone = paintingClone.querySelector('.painting-inner-frame');
 
-                pngImage.alt = `Painting ${nextPaintingId}`;
+innerFrameClone.innerHTML = '';
 
-                innerFrameClone.appendChild(pngImage);
+innerFrameClone.classList.add('png-container');
 
-                container.appendChild(paintingClone);
+const pngImage = document.createElement('img');
 
-                // Add painting information
+pngImage.src = `PNG/png${nextPaintingId}.png`;
 
-                const infoDiv = document.createElement('div');
+pngImage.className = 'png-content';
 
-                infoDiv.className = 'painting-info';
+pngImage.alt = `Painting ${nextPaintingId}`;
 
-                const titleElement = document.createElement('h2');
+innerFrameClone.appendChild(pngImage);
 
-                titleElement.className = 'painting-title';
+container.appendChild(paintingClone);
 
-                titleElement.textContent = paintingInfo[nextPaintingId - 1].title;
+// Add painting information
 
-                infoDiv.appendChild(titleElement);
+const infoDiv = document.createElement('div');
 
-                const descElement = document.createElement('p');
+infoDiv.className = 'painting-info';
 
-                descElement.className = 'painting-description';
+const titleElement = document.createElement('h2');
 
-                descElement.textContent = paintingInfo[nextPaintingId - 1].description;
+titleElement.className = 'painting-title';
 
-                infoDiv.appendChild(descElement);
+titleElement.textContent = paintingInfo[nextPaintingId - 1].title;
 
-                // Add close button
+infoDiv.appendChild(titleElement);
 
-                const closeButton = document.createElement('button');
+const descElement = document.createElement('p');
 
-                closeButton.className = 'close-button';
+descElement.className = 'painting-description';
 
-                closeButton.innerHTML = '&times;';
+descElement.textContent = paintingInfo[nextPaintingId - 1].description;
 
-                closeButton.addEventListener('click', (e) => {
+infoDiv.appendChild(descElement);
 
-                    e.stopPropagation();
+// Add close button
 
-                    overlay.classList.remove('active');
+const closeButton = document.createElement('button');
 
-                    setTimeout(() => {
+closeButton.className = 'close-button';
 
-                        overlay.style.display = 'none';
+closeButton.innerHTML = '&times;';
 
-                        overlay.innerHTML = '';
+closeButton.addEventListener('click', (e) => {
 
-                    }, 300);
+e.stopPropagation();
 
-                    // Turn off LED when closing
+overlay.classList.remove('active');
 
-                    if (activeLedId !== null) {
+setTimeout(() => {
 
-                        db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
+overlay.style.display = 'none';
 
-                        activeLedId = null;
+overlay.innerHTML = '';
 
-                    }
+}, 300);
 
-                    // Remove keyboard event listener
+// Turn off LED when closing
 
-                    document.removeEventListener('keydown', handleKeyNavigation);
+if (activeLedId !== null) {
 
-                });
+db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
 
-                container.appendChild(closeButton);
+activeLedId = null;
 
-                container.appendChild(infoDiv);
+}
 
-                overlay.appendChild(container);
+// Remove keyboard event listener
 
-            }
+document.removeEventListener('keydown', handleKeyNavigation);
 
-        };
+});
 
-        // Add event listener for keyboard navigation
+container.appendChild(closeButton);
 
-        document.addEventListener('keydown', handleKeyNavigation);
+container.appendChild(infoDiv);
 
-        // Remove event listener when overlay is closed
+overlay.appendChild(container);
 
-        closeButton.addEventListener('click', () => {
-
-            document.removeEventListener('keydown', handleKeyNavigation);
-
-        });
-
-    });
+}
 
 };
 
+// Add event listener for keyboard navigation
 
+document.addEventListener('keydown', handleKeyNavigation);
 
-// Close focused view when clicking outside the painting
-overlay.addEventListener('click', (event) => {
-    if (event.target === overlay) {
-        overlay.classList.remove('active');
+// Remove event listener when overlay is closed
 
-        // Turn on all LEDs with their respective colors when exiting focus mode
-        const colors = [
-            { r: 255, g: 0, b: 0 },     // Red
-            { r: 255, g: 255, b: 0 },   // Yellow
-            { r: 0, g: 255, b: 0 },     // Green
-            { r: 0, g: 0, b: 255 },     // Blue
-            { r: 255, g: 0, b: 255 }    // Purple
-        ];
-        
-        // Turn on all LEDs
-        for (let i = 1; i <= 5; i++) {
-            const ledColor = colors[(i - 1) % colors.length];
-            db.ref(`leds/led${i}`).set(ledColor);
-        }
-        
-        console.log("All LEDs turned on when exiting focus mode");
-        activeLedId = null; // Reset the active LED ID
+closeButton.addEventListener('click', () => {
 
-        // Show the appropriate navigation button based on current wall
-        if (currentWall === 1) {
-            navButton.style.display = 'flex';
-        } else {
-            backButton.style.display = 'flex';
-        }
-    }
+document.removeEventListener('keydown', handleKeyNavigation);
+
 });
 
+});
 
+};
+
+  
+
+// Close focused view when clicking outside the painting
+
+overlay.addEventListener('click', (event) => {
+
+if (event.target === overlay) {
+
+overlay.classList.remove('active');
+
+  
+
+// Turn off the active LED when exiting focus mode
+
+if (activeLedId !== null) {
+
+db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
+
+console.log(`LED ${activeLedId} turned off when exiting focus mode`);
+
+activeLedId = null; // Reset the active LED ID
+
+}
+
+  
+
+// Show the appropriate navigation button based on current wall
+
+if (currentWall === 1) {
+
+navButton.style.display = 'flex';
+
+} else {
+
+backButton.style.display = 'flex';
+
+}
+
+}
+
+});
+
+  
 
 // Helper function to convert RGB to HEX
 
 function rgbToHex(r, g, b) {
 
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 
 }
 
-
+  
 
 // Ensure the gallery fits the 1920x1080 aspect ratio
 
 function adjustGallerySize() {
 
-    const container = document.querySelector('.gallery-container');
+const container = document.querySelector('.gallery-container');
 
-    const windowRatio = window.innerWidth / window.innerHeight;
+const windowRatio = window.innerWidth / window.innerHeight;
 
-    const targetRatio = 16 / 9; // 1920/1080
+const targetRatio = 16 / 9; // 1920/1080
 
+  
 
+if (windowRatio > targetRatio) {
 
-    if (windowRatio > targetRatio) {
+// Window is wider than 16:9
 
-        // Window is wider than 16:9
+const width = window.innerHeight * targetRatio;
 
-        const width = window.innerHeight * targetRatio;
+container.style.width = `${width}px`;
 
-        container.style.width = `${width}px`;
+container.style.height = '100vh';
 
-        container.style.height = '100vh';
+container.style.margin = '0 auto';
 
-        container.style.margin = '0 auto';
+} else {
 
-    } else {
+// Window is taller than 16:9
 
-        // Window is taller than 16:9
+const height = window.innerWidth / targetRatio;
 
-        const height = window.innerWidth / targetRatio;
+container.style.width = '100vw';
 
-        container.style.width = '100vw';
+container.style.height = `${height}px`;
 
-        container.style.height = `${height}px`;
-
-        container.style.margin = `${(window.innerHeight - height) / 2}px 0`;
-
-    }
+container.style.margin = `${(window.innerHeight - height) / 2}px 0`;
 
 }
 
+}
 
+  
 
 // Adjust size on load and resize
 
@@ -769,7 +786,7 @@ window.addEventListener('load', adjustGallerySize);
 
 window.addEventListener('resize', adjustGallerySize);
 
-
+  
 
 // Settings panel functionality
 
@@ -791,7 +808,7 @@ const adminSubmit = document.getElementById('admin-submit');
 
 const adminPanel = document.getElementById('admin-panel');
 
-
+  
 
 // Add SVG filters for color blindness
 
@@ -806,282 +823,297 @@ svgFilters.style.position = 'absolute';
 svgFilters.style.overflow = 'hidden';
 
 svgFilters.innerHTML = `
-    
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    
-    <filter id="protanopia-filter">
-    
-    <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0, 0.558, 0.442, 0, 0, 0, 0, 0.242, 0.758, 0, 0, 0, 0, 0, 1, 0"/>
-    
-    </filter>
-    
-    <filter id="deuteranopia-filter">
-    
-    <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0, 0.7, 0.3, 0, 0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0, 1, 0"/>
-    
-    </filter>
-    
-    <filter id="tritanopia-filter">
-    
-    <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0, 0, 0.433, 0.567, 0, 0, 0, 0.475, 0.525, 0, 0, 0, 0, 0, 1, 0"/>
-    
-    </filter>
-    
-    </svg>
-    
-    `;
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+<filter id="protanopia-filter">
+
+<feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0, 0.558, 0.442, 0, 0, 0, 0, 0.242, 0.758, 0, 0, 0, 0, 0, 1, 0"/>
+
+</filter>
+
+<filter id="deuteranopia-filter">
+
+<feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0, 0.7, 0.3, 0, 0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0, 1, 0"/>
+
+</filter>
+
+<filter id="tritanopia-filter">
+
+<feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0, 0, 0.433, 0.567, 0, 0, 0, 0.475, 0.525, 0, 0, 0, 0, 0, 1, 0"/>
+
+</filter>
+
+</svg>
+
+`;
 
 document.body.appendChild(svgFilters);
 
-
+  
 
 // Toggle settings panel
 
 settingsIcon.addEventListener('click', () => {
 
-    settingsPanel.classList.add('active');
+settingsPanel.classList.add('active');
 
 });
 
-
+  
 
 closeSettings.addEventListener('click', () => {
 
-    settingsPanel.classList.remove('active');
+settingsPanel.classList.remove('active');
 
 });
 
-
+  
 
 // Visual alerts for deaf users
 
 visualAlerts.addEventListener('change', () => {
 
-    if (visualAlerts.checked) {
+if (visualAlerts.checked) {
 
-        // Enable visual alerts
+// Enable visual alerts
 
-        localStorage.setItem('visualAlerts', 'true');
+localStorage.setItem('visualAlerts', 'true');
 
-    } else {
+} else {
 
-        // Disable visual alerts
+// Disable visual alerts
 
-        localStorage.setItem('visualAlerts', 'false');
+localStorage.setItem('visualAlerts', 'false');
 
-    }
+}
 
 });
 
-
+  
 
 // Color blind mode
 
 colorBlindMode.addEventListener('change', () => {
 
-    // Remove all color blind classes
+// Remove all color blind classes
 
-    document.body.classList.remove('protanopia', 'deuteranopia', 'tritanopia');
+document.body.classList.remove('protanopia', 'deuteranopia', 'tritanopia');
 
-    // Add selected class if not normal
+// Add selected class if not normal
 
-    if (colorBlindMode.value !== 'normal') {
+if (colorBlindMode.value !== 'normal') {
 
-        document.body.classList.add(colorBlindMode.value);
+document.body.classList.add(colorBlindMode.value);
 
-    }
+}
 
-    // Save preference
+// Save preference
 
-    localStorage.setItem('colorBlindMode', colorBlindMode.value);
+localStorage.setItem('colorBlindMode', colorBlindMode.value);
 
 });
 
-
+  
 
 // High contrast mode
 
 highContrast.addEventListener('change', () => {
 
-    if (highContrast.checked) {
+if (highContrast.checked) {
 
-        document.body.classList.add('high-contrast');
+document.body.classList.add('high-contrast');
 
-        localStorage.setItem('highContrast', 'true');
+localStorage.setItem('highContrast', 'true');
 
-    } else {
+} else {
 
-        document.body.classList.remove('high-contrast');
+document.body.classList.remove('high-contrast');
 
-        localStorage.setItem('highContrast', 'false');
+localStorage.setItem('highContrast', 'false');
 
-    }
+}
 
 });
 
-
+  
 
 // Admin login
 
 adminSubmit.addEventListener('click', () => {
 
-    // Simple password check - in a real app, use proper authentication
+// Simple password check - in a real app, use proper authentication
 
-    if (adminPassword.value === 'admin123') {
+if (adminPassword.value === 'admin123') {
 
-        adminPanel.style.display = 'block';
+adminPanel.style.display = 'block';
 
-        adminPassword.value = '';
+adminPassword.value = '';
 
-        // Add admin controls
+// Add admin controls
 
-        adminPanel.innerHTML = `
-    
-    <div class="admin-controls">
-    
-    <h4>LED Controls</h4>
-    
-    <button id="reset-all-leds">Reset All LEDs</button>
-    
-    <button id="test-all-leds">Test All LEDs</button>
-    
-    <h4>Gallery Settings</h4>
-    
-    <button id="reset-settings">Reset All Settings</button>
-    
-    </div>
-    
-    `;
+adminPanel.innerHTML = `
 
-        // Add functionality to admin buttons
+<div class="admin-controls">
 
-        document.getElementById('reset-all-leds').addEventListener('click', () => {
+<h4>LED Controls</h4>
 
-            // Turn off all LEDs
+<button id="reset-all-leds">Reset All LEDs</button>
 
-            for (let i = 1; i <= 5; i++) {
+<button id="test-all-leds">Test All LEDs</button>
 
-                db.ref(`leds/led${i}`).set({ r: 0, g: 0, b: 0 });
+<h4>Gallery Settings</h4>
 
-            }
+<button id="reset-settings">Reset All Settings</button>
 
-            alert('All LEDs have been reset.');
+</div>
 
-        });
+`;
 
-        document.getElementById('test-all-leds').addEventListener('click', () => {
+// Add functionality to admin buttons
 
-            // Test all LEDs in sequence
+document.getElementById('reset-all-leds').addEventListener('click', () => {
 
-            testLEDs();
+// Turn off all LEDs
 
-        });
+for (let i = 1; i <= 5; i++) {
 
-        document.getElementById('reset-settings').addEventListener('click', () => {
-
-            // Reset all settings
-
-            localStorage.clear();
-
-            visualAlerts.checked = false;
-
-            colorBlindMode.value = 'normal';
-
-            highContrast.checked = false;
-
-            document.body.classList.remove('protanopia', 'deuteranopia', 'tritanopia', 'high-contrast');
-
-            alert('All settings have been reset.');
-
-        });
-
-    } else {
-
-        alert('Incorrect password. Please try again.');
-
-    }
-
-});
-
-
-
-// Function to test LEDs in sequence
-function testLEDs() {
-    const colors = [
-        { r: 255, g: 0, b: 0 }, // Red
-        { r: 255, g: 255, b: 0 }, // Yellow
-        { r: 0, g: 255, b: 0 }, // Green
-        { r: 0, g: 0, b: 255 }, // Blue
-        { r: 255, g: 0, b: 255 } // Purple
-    ];
-    // Turn on each LED for 1 second
-    let i = 1;
-    const testInterval = setInterval(() => {
-        if (i <= 5) {
-            // Map painting number to LED number, swapping 2 and 3
-            let ledNumber = i;
-            if (i === 2) ledNumber = 3;
-            else if (i === 3) ledNumber = 2;
-
-            // Turn on current LED
-            db.ref(`leds/led${ledNumber}`).set(colors[i - 1]);
-            // Turn off previous LED
-            if (i > 1) {
-                let prevLedNumber = i - 1;
-                if (prevLedNumber === 2) prevLedNumber = 3;
-                else if (prevLedNumber === 3) prevLedNumber = 2;
-
-                db.ref(`leds/led${prevLedNumber}`).set({ r: 0, g: 0, b: 0 });
-            }
-            i++;
-        } else {
-            // Turn off the last LED and clear interval
-            db.ref(`leds/led5`).set({ r: 0, g: 0, b: 0 });
-            clearInterval(testInterval);
-        }
-
-    }, 1000);
+db.ref(`leds/led${i}`).set({ r: 0, g: 0, b: 0 });
 
 }
 
+alert('All LEDs have been reset.');
 
+});
+
+document.getElementById('test-all-leds').addEventListener('click', () => {
+
+// Test all LEDs in sequence
+
+testLEDs();
+
+});
+
+document.getElementById('reset-settings').addEventListener('click', () => {
+
+// Reset all settings
+
+localStorage.clear();
+
+visualAlerts.checked = false;
+
+colorBlindMode.value = 'normal';
+
+highContrast.checked = false;
+
+document.body.classList.remove('protanopia', 'deuteranopia', 'tritanopia', 'high-contrast');
+
+alert('All settings have been reset.');
+
+});
+
+} else {
+
+alert('Incorrect password. Please try again.');
+
+}
+
+});
+
+  
+
+// Function to test LEDs in sequence
+
+function testLEDs() {
+
+const colors = [
+
+{ r: 255, g: 0, b: 0 }, // Red
+
+{ r: 255, g: 255, b: 0 }, // Yellow
+
+{ r: 0, g: 255, b: 0 }, // Green
+
+{ r: 0, g: 0, b: 255 }, // Blue
+
+{ r: 255, g: 0, b: 255 } // Purple
+
+];
+
+// Turn on each LED for 1 second
+
+let i = 1;
+
+const testInterval = setInterval(() => {
+
+if (i <= 5) {
+
+// Turn on current LED
+
+db.ref(`leds/led${i}`).set(colors[i-1]);
+
+// Turn off previous LED
+
+if (i > 1) {
+
+db.ref(`leds/led${i-1}`).set({ r: 0, g: 0, b: 0 });
+
+}
+
+i++;
+
+} else {
+
+// Turn off the last LED and clear interval
+
+db.ref(`leds/led5`).set({ r: 0, g: 0, b: 0 });
+
+clearInterval(testInterval);
+
+}
+
+}, 1000);
+
+}
+
+  
 
 // Load saved settings on page load
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    // Load visual alerts setting
+// Load visual alerts setting
 
-    if (localStorage.getItem('visualAlerts') === 'true') {
+if (localStorage.getItem('visualAlerts') === 'true') {
 
-        visualAlerts.checked = true;
+visualAlerts.checked = true;
 
-    }
+}
 
-    // Load color blind mode
+// Load color blind mode
 
-    const savedColorMode = localStorage.getItem('colorBlindMode');
+const savedColorMode = localStorage.getItem('colorBlindMode');
 
-    if (savedColorMode) {
+if (savedColorMode) {
 
-        colorBlindMode.value = savedColorMode;
+colorBlindMode.value = savedColorMode;
 
-        if (savedColorMode !== 'normal') {
+if (savedColorMode !== 'normal') {
 
-            document.body.classList.add(savedColorMode);
+document.body.classList.add(savedColorMode);
 
-        }
+}
 
-    }
+}
 
-    // Load high contrast setting
+// Load high contrast setting
 
-    if (localStorage.getItem('highContrast') === 'true') {
+if (localStorage.getItem('highContrast') === 'true') {
 
-        highContrast.checked = true;
+highContrast.checked = true;
 
-        document.body.classList.add('high-contrast');
+document.body.classList.add('high-contrast');
 
-    }
+}
 
 });
