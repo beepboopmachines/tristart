@@ -13,13 +13,22 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Turn off all LEDs when the page loads
+// Turn on all LEDs when the page loads (instead of turning them off)
 window.addEventListener('load', () => {
-    // Turn off all LEDs (assuming you have 5 LEDs)
+    // Turn on all LEDs with alternating colors
+    const colors = [
+        { r: 255, g: 192, b: 203 }, // Pink
+        { r: 0, g: 0, b: 255 }, // Blue
+        { r: 255, g: 192, b: 203 }, // Pink
+        { r: 0, g: 0, b: 255 }, // Blue
+        { r: 0, g: 0, b: 255 }  // Blue
+    ];
+    
     for (let i = 1; i <= 5; i++) {
-        db.ref(`leds/led${i}`).set({ r: 0, g: 0, b: 0 });
+        const ledColor = colors[(i - 1) % colors.length];
+        db.ref(`leds/led${i}`).set(ledColor);
     }
-    console.log("All LEDs turned off on page load");
+    console.log("All LEDs turned on with colors on page load");
 });
 
 // Handle wall navigation
@@ -207,11 +216,20 @@ for (let i = 1; i <= 5; i++) {
                 overlay.innerHTML = '';
             }, 300);
 
-            // Turn off LED when closing
-            if (activeLedId !== null) {
-                db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
-                activeLedId = null;
+            // Turn on all LEDs with their respective colors when closing
+            const colors = [
+                { r: 255, g: 192, b: 203 }, // Pink
+                { r: 0, g: 0, b: 255 }, // Blue
+                { r: 255, g: 192, b: 203 }, // Pink
+                { r: 0, g: 0, b: 255 }, // Blue
+                { r: 0, g: 0, b: 255 }  // Blue
+            ];
+            
+            for (let i = 1; i <= 5; i++) {
+                const ledColor = colors[(i - 1) % colors.length];
+                db.ref(`leds/led${i}`).set(ledColor);
             }
+            activeLedId = null; // Reset the active LED ID
         });
 
         container.appendChild(closeButton);
@@ -349,12 +367,21 @@ for (let i = 1; i <= 5; i++) {
 overlay.addEventListener('click', (event) => {
     if (event.target === overlay) {
         overlay.classList.remove('active');
-        // Turn off the active LED when exiting focus mode
-        if (activeLedId !== null) {
-            db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
-            console.log(`LED ${activeLedId} turned off when exiting focus mode`);
-            activeLedId = null; // Reset the active LED ID
+        // Turn on all LEDs with their respective colors when exiting focus mode
+        const colors = [
+            { r: 255, g: 192, b: 203 }, // Pink
+            { r: 0, g: 0, b: 255 }, // Blue
+            { r: 255, g: 192, b: 203 }, // Pink
+            { r: 0, g: 0, b: 255 }, // Blue
+            { r: 0, g: 0, b: 255 }  // Blue
+        ];
+        
+        for (let i = 1; i <= 5; i++) {
+            const ledColor = colors[(i - 1) % colors.length];
+            db.ref(`leds/led${i}`).set(ledColor);
         }
+        console.log("All LEDs turned on with colors when exiting focus mode");
+        activeLedId = null; // Reset the active LED ID
 
         // Show the appropriate navigation button based on current wall
         if (currentWall === 1) {
@@ -492,11 +519,20 @@ adminSubmit.addEventListener('click', () => {
     `;
         // Add functionality to admin buttons
         document.getElementById('reset-all-leds').addEventListener('click', () => {
-            // Turn off all LEDs
+            // Turn on all LEDs with their respective colors
+            const colors = [
+                { r: 255, g: 192, b: 203 }, // Pink
+                { r: 0, g: 0, b: 255 }, // Blue
+                { r: 255, g: 192, b: 203 }, // Pink
+                { r: 0, g: 0, b: 255 }, // Blue
+                { r: 0, g: 0, b: 255 }  // Blue
+            ];
+            
             for (let i = 1; i <= 5; i++) {
-                db.ref(`leds/led${i}`).set({ r: 0, g: 0, b: 0 });
+                const ledColor = colors[(i - 1) % colors.length];
+                db.ref(`leds/led${i}`).set(ledColor);
             }
-            alert('All LEDs have been reset.');
+            alert('All LEDs have been reset to their default colors.');
         });
 
         document.getElementById('test-all-leds').addEventListener('click', () => {
