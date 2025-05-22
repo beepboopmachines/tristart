@@ -15,20 +15,11 @@ const db = firebase.database();
 
 // Turn on all LEDs when the page loads (instead of turning them off)
 window.addEventListener('load', () => {
-    // Turn on all LEDs with alternating colors
-    const colors = [
-        { r: 255, g: 192, b: 203 }, // Pink
-        { r: 0, g: 0, b: 255 }, // Blue
-        { r: 255, g: 192, b: 203 }, // Pink
-        { r: 0, g: 0, b: 255 }, // Blue
-        { r: 0, g: 0, b: 255 }  // Blue
-    ];
-    
+    // Turn on all LEDs with white color
     for (let i = 1; i <= 5; i++) {
-        const ledColor = colors[(i - 1) % colors.length];
-        db.ref(`leds/led${i}`).set(ledColor);
+        db.ref(`leds/led${i}`).set({ r: 255, g: 255, b: 255 }); // White color for all LEDs
     }
-    console.log("All LEDs turned on with colors on page load");
+    console.log("All LEDs turned on with white color on page load");
 });
 
 // Handle wall navigation
@@ -146,17 +137,19 @@ for (let i = 1; i <= 5; i++) {
     // Handle painting click to turn on LED and show focused view
     painting.addEventListener('click', (event) => {
         event.stopPropagation();
-        // Turn off previously active LED if any
-        if (activeLedId !== null) {
-            db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
+
+        // Turn off ALL LEDs first
+        for (let j = 1; j <= 5; j++) {
+            db.ref(`leds/led${j}`).set({ r: 0, g: 0, b: 0 });
         }
+
         // Turn on this LED with a color
         const colors = [
             { r: 255, g: 192, b: 203 }, // Pink
             { r: 0, g: 0, b: 255 }, // Blue
             { r: 255, g: 192, b: 203 }, // Pink
             { r: 0, g: 0, b: 255 }, // Blue
-            { r: 255, g: 192, b: 203 }  // Pink
+            { r: 255, g: 192, b: 203 }, // Pink
         ];
 
         const ledColor = colors[(i - 1) % colors.length];
@@ -216,18 +209,9 @@ for (let i = 1; i <= 5; i++) {
                 overlay.innerHTML = '';
             }, 300);
 
-            // Turn on all LEDs with their respective colors when closing
-            const colors = [
-                { r: 255, g: 192, b: 203 }, // Pink
-                { r: 0, g: 0, b: 255 }, // Blue
-                { r: 255, g: 192, b: 203 }, // Pink
-                { r: 0, g: 0, b: 255 }, // Blue
-                { r: 0, g: 0, b: 255 }  // Blue
-            ];
-            
+            // Turn on all LEDs with white color when closing
             for (let i = 1; i <= 5; i++) {
-                const ledColor = colors[(i - 1) % colors.length];
-                db.ref(`leds/led${i}`).set(ledColor);
+                db.ref(`leds/led${i}`).set({ r: 255, g: 255, b: 255 }); // White color
             }
             activeLedId = null; // Reset the active LED ID
         });
@@ -268,9 +252,9 @@ for (let i = 1; i <= 5; i++) {
 
             // If we have a valid next painting, simulate a click on it
             if (nextPaintingId) {
-                // Turn off current LED
-                if (activeLedId !== null) {
-                    db.ref(`leds/led${activeLedId}`).set({ r: 0, g: 0, b: 0 });
+                // Turn off ALL LEDs first
+                for (let j = 1; j <= 5; j++) {
+                    db.ref(`leds/led${j}`).set({ r: 0, g: 0, b: 0 });
                 }
 
                 // Turn on the next LED directly without animation
@@ -279,7 +263,7 @@ for (let i = 1; i <= 5; i++) {
                     { r: 0, g: 0, b: 255 }, // Blue
                     { r: 255, g: 192, b: 203 }, // Pink
                     { r: 0, g: 0, b: 255 }, // Blue
-                    { r: 255, g: 192, b: 203 }  // Pink
+                    { r: 255, g: 192, b: 203 }, // Pink
                 ];
 
                 const ledColor = colors[(nextPaintingId - 1) % colors.length];
@@ -367,20 +351,11 @@ for (let i = 1; i <= 5; i++) {
 overlay.addEventListener('click', (event) => {
     if (event.target === overlay) {
         overlay.classList.remove('active');
-        // Turn on all LEDs with their respective colors when exiting focus mode
-        const colors = [
-            { r: 255, g: 192, b: 203 }, // Pink
-            { r: 0, g: 0, b: 255 }, // Blue
-            { r: 255, g: 192, b: 203 }, // Pink
-            { r: 0, g: 0, b: 255 }, // Blue
-            { r: 0, g: 0, b: 255 }  // Blue
-        ];
-        
+        // Turn on all LEDs with white color when exiting focus mode
         for (let i = 1; i <= 5; i++) {
-            const ledColor = colors[(i - 1) % colors.length];
-            db.ref(`leds/led${i}`).set(ledColor);
+            db.ref(`leds/led${i}`).set({ r: 255, g: 255, b: 255 }); // White color
         }
-        console.log("All LEDs turned on with colors when exiting focus mode");
+        console.log("All LEDs turned on with white color when exiting focus mode");
         activeLedId = null; // Reset the active LED ID
 
         // Show the appropriate navigation button based on current wall
@@ -525,9 +500,9 @@ adminSubmit.addEventListener('click', () => {
                 { r: 0, g: 0, b: 255 }, // Blue
                 { r: 255, g: 192, b: 203 }, // Pink
                 { r: 0, g: 0, b: 255 }, // Blue
-                { r: 0, g: 0, b: 255 }  // Blue
+                { r: 255, g: 192, b: 203 }, // Pink
             ];
-            
+
             for (let i = 1; i <= 5; i++) {
                 const ledColor = colors[(i - 1) % colors.length];
                 db.ref(`leds/led${i}`).set(ledColor);
@@ -562,7 +537,7 @@ function testLEDs() {
         { r: 0, g: 0, b: 255 }, // Blue
         { r: 255, g: 192, b: 203 }, // Pink
         { r: 0, g: 0, b: 255 }, // Blue
-        { r: 255, g: 192, b: 203 }  // Pink
+        { r: 255, g: 192, b: 203 }, // Pink
     ];
     // Turn on each LED for 1 second
     let i = 1;
