@@ -145,11 +145,11 @@ for (let i = 1; i <= 5; i++) {
 
         // Turn on this LED with a color
         const colors = [
-            { r: 255, g: 192, b: 203 }, // Pink
-            { r: 0, g: 0, b: 255 }, // Blue
-            { r: 255, g: 192, b: 203 }, // Pink
-            { r: 0, g: 0, b: 255 }, // Blue
-            { r: 255, g: 192, b: 203 }, // Pink
+            { r: 255, g: 255, b: 255 }, // Pink
+            { r: 255, g: 255, b: 255 }, // Blue
+            { r: 255, g: 255, b: 255 }, // Pink
+            { r: 255, g: 255, b: 255 }, // Blue
+            { r: 255, g: 255, b: 255 }, // Pink
         ];
 
         const ledColor = colors[(i - 1) % colors.length];
@@ -259,11 +259,11 @@ for (let i = 1; i <= 5; i++) {
 
                 // Turn on the next LED directly without animation
                 const colors = [
-                    { r: 255, g: 192, b: 203 }, // Pink
-                    { r: 0, g: 0, b: 255 }, // Blue
-                    { r: 255, g: 192, b: 203 }, // Pink
-                    { r: 0, g: 0, b: 255 }, // Blue
-                    { r: 255, g: 192, b: 203 }, // Pink
+                    { r: 255, g: 255, b: 255 }, // Pink
+                    { r: 255, g: 255, b: 255 }, // Blue
+                    { r: 255, g: 255, b: 255 }, // Pink
+                    { r: 255, g: 255, b: 255 }, // Blue
+                    { r: 255, g: 255, b: 255 }, // Pink
                 ];
 
                 const ledColor = colors[(nextPaintingId - 1) % colors.length];
@@ -496,11 +496,11 @@ adminSubmit.addEventListener('click', () => {
         document.getElementById('reset-all-leds').addEventListener('click', () => {
             // Turn on all LEDs with their respective colors
             const colors = [
-                { r: 255, g: 192, b: 203 }, // Pink
-                { r: 0, g: 0, b: 255 }, // Blue
-                { r: 255, g: 192, b: 203 }, // Pink
-                { r: 0, g: 0, b: 255 }, // Blue
-                { r: 255, g: 192, b: 203 }, // Pink
+                { r: 255, g: 255, b: 255 }, // Pink
+                { r: 255, g: 255, b: 255 }, // Blue
+                { r: 255, g: 255, b: 255 }, // Pink
+                { r: 255, g: 255, b: 255 }, // Blue
+                { r: 255, g: 255, b: 255 }, // Pink
             ];
 
             for (let i = 1; i <= 5; i++) {
@@ -533,11 +533,11 @@ adminSubmit.addEventListener('click', () => {
 // Function to test LEDs in sequence
 function testLEDs() {
     const colors = [
-        { r: 255, g: 192, b: 203 }, // Pink
-        { r: 0, g: 0, b: 255 }, // Blue
-        { r: 255, g: 192, b: 203 }, // Pink
-        { r: 0, g: 0, b: 255 }, // Blue
-        { r: 255, g: 192, b: 203 }, // Pink
+        { r: 255, g: 255, b: 255 }, // Pink
+        { r: 255, g: 255, b: 255 }, // Blue
+        { r: 255, g: 255, b: 255 }, // Pink
+        { r: 255, g: 255, b: 255 }, // Blue
+        { r: 255, g: 255, b: 255 }, // Pink
     ];
     // Turn on each LED for 1 second
     let i = 1;
