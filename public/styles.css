@@ -1,24 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
+
+html,
 body {
-    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll/overflow */
     background-color: #333;
+    /* Apply background to html as well */
+    font-family: 'Lexend', sans-serif;
     color: white;
-    overflow: hidden;
+    box-sizing: border-box;
+}
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* Removed width and height from here as html tag handles it */
 }
 
 .gallery-container {
     position: relative;
-    width: 100%;
-    height: 100%;
-    max-width: calc(100vh * (16/9));
-    max-height: calc(100vw * (9/16));
+    /* Or absolute, depending on desired behavior with body flex */
+    width: 100vw;
+    /* Ensure it tries to take full viewport width */
+    height: 100vh;
+    /* Ensure it tries to take full viewport height */
     background-color: #333;
+    /* Match body/html background */
     overflow: hidden;
+    /* Crucial: hide any internal overflow */
+    display: flex;
+    /* If it contains elements that need centering */
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    /* max-width and max-height can be re-added if aspect ratio is critical,
+       but ensure they don't conflict with 100vw/100vh causing letterboxing */
+}
+
+/* Resetting just in case, though the above should cover it */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 /* Add baseboard at the bottom of the gallery */
@@ -456,19 +484,41 @@ body {
 .close-button {
     position: absolute;
     top: 10px;
+    /* This positions the button itself */
     right: 10px;
+    /* This positions the button itself */
     width: 30px;
     height: 30px;
     background-color: rgba(0, 0, 0, 0.5);
-    color: white;
     border: 1px solid white;
     border-radius: 50%;
-    font-size: 20px;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 200;
+    padding: 0;
+    /* Reset padding */
+    /* Remove display:flex and related properties if we use pseudo-elements for the X */
+}
+
+/* Create the 'X' using pseudo-elements */
+.close-button::before,
+.close-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    /* Adjust width of the lines of 'X' */
+    height: 2px;
+    /* Adjust thickness of the lines of 'X' */
+    background-color: white;
+}
+
+.close-button::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-button::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .close-button:hover {
@@ -713,3 +763,62 @@ body {
 }
 
 /* Add SVG filters for color blindness at the end of your body */
+
+.painting-info-focused {
+    padding-left: 35px;
+    padding: 20px;
+    /* Add padding for better spacing */
+    background-color: rgba(0, 0, 0, 0.0);
+    /* Semi-transparent background for contrast */
+    color: #fff;
+    /* White text for readability */
+    border-radius: 8px;
+    /* Rounded corners for a softer look */
+    /* Limit width to prevent overly wide text blocks */
+    margin: 0 auto;
+    /* Center the text block */
+}
+
+.description-pagination-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding-left: 35px;
+    /* Space for the arrow */
+    position: relative;
+    /* For absolute positioning of the arrow */
+}
+
+.painting-description {
+    flex-grow: 1;
+    margin: 0 10px 0 0;
+    /* Adjusted left margin to 0 */
+    text-align: justify;
+    line-height: 1.6;
+}
+
+.description-nav-button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin-left: 10px;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.description-nav-button svg {
+    display: block;
+}
+
+.description-nav-button.prev-button {
+    position: absolute;
+    left: -25px;
+    /* Move further left (adjust as needed) */
+    top: 50%;
+    transform: translateY(-50%);
+    /* Center vertically */
+}
