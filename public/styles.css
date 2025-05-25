@@ -8,7 +8,7 @@ body {
     height: 100%;
     overflow-x: hidden;
     /* Prevent horizontal scroll/overflow */
-    background-color: #333;
+    background-color: #1f1f1f;
     /* Apply background to html as well */
     font-family: 'Lexend', sans-serif;
     color: white;
@@ -29,7 +29,7 @@ body {
     /* Ensure it tries to take full viewport width */
     height: 100vh;
     /* Ensure it tries to take full viewport height */
-    background-color: #333;
+    background-color: #1f1f1f;
     /* Match body/html background */
     overflow: hidden;
     /* Crucial: hide any internal overflow */
@@ -572,7 +572,7 @@ body {
     height: 10px;
     /* Fixed height in pixels instead of vh */
     border-radius: 50%;
-    background-color: #555;
+    background-color: #1f1f1f;
 }
 
 .dot.active {
@@ -716,7 +716,7 @@ body {
 }
 
 .admin-login input {
-    background-color: #333;
+    background-color: #1f1f1f;
     color: white;
     border: 1px solid #555;
     padding: 8px;
@@ -812,6 +812,159 @@ body {
 
 .description-nav-button svg {
     display: block;
+}
+
+.description-nav-button.prev-button {
+    position: absolute;
+    left: -25px;
+    /* Move further left (adjust as needed) */
+    top: 50%;
+    transform: translateY(-50%);
+    /* Center vertically */
+}
+
+/* Cover Page Styles */
+.cover-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    cursor: pointer;
+    transition: opacity 0.8s ease-out;
+}
+
+.cover-page.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cover-header {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    right: 2rem;
+}
+
+.cover-header-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.7rem, 1.2vw, 1rem);
+    font-weight: 400;
+    color: white;
+    margin: 0;
+    text-align: left;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid white;
+    padding-bottom: 0.5rem;
+}
+
+.cover-content {
+    text-align: center;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    max-width: 90%;
+    position: relative;
+}
+
+.cover-title {
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin: 0;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.cover-subtitle {
+    font-size: clamp(1rem, 2.5vw, 2rem);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    margin: 0;
+    margin-bottom: 4rem;
+    opacity: 0.9;
+}
+
+.cover-credits {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    position: absolute;
+    bottom: -15vh;
+    left: 0;
+    font-size: clamp(0.7rem, 1.2vw, 1rem);
+    font-weight: 300;
+}
+
+.credits-left {
+    text-align: left;
+}
+
+.credits-right {
+    text-align: right;
+    line-height: 1.4;
+}
+
+.credits-right p {
+    margin: 0.2rem 0;
+}
+
+.click-instruction {
+    position: absolute;
+    bottom: -25vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+    opacity: 0.7;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cover-header {
+        top: 1rem;
+        left: 1rem;
+        right: 1rem;
+    }
+
+    .cover-header-text {
+        font-size: clamp(0.6rem, 2.5vw, 0.9rem);
+        text-align: center;
+    }
+
+    .cover-credits {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        bottom: -12vh;
+    }
+
+    .credits-left,
+    .credits-right {
+        text-align: center;
+    }
+
+    .click-instruction {
+        bottom: -20vh;
+    }
 }
 
 .description-nav-button.prev-button {
