@@ -20,10 +20,26 @@ const modoSonoroCheckbox = document.getElementById('visual-alerts'); // Consider
 // const audioPlayer = new Audio();
 
 // Turn on all LEDs when the page loads (instead of turning them off)
+// Cover page functionality
 window.addEventListener('load', () => {
-    // Turn on all LEDs with white color
+    const coverPage = document.getElementById('cover-page');
+    const mainGallery = document.getElementById('main-gallery');
+
+    // Add click event to cover page
+    coverPage.addEventListener('click', () => {
+        // Fade out cover page
+        coverPage.classList.add('fade-out');
+
+        // Show main gallery after fade out completes
+        setTimeout(() => {
+            coverPage.style.display = 'none';
+            mainGallery.style.display = 'flex';
+        }, 800); // Match the CSS transition duration
+    });
+
+    // Turn on all LEDs with white color (existing functionality)
     for (let i = 1; i <= 5; i++) {
-        db.ref(`leds/led${i}`).set({ r: 255, g: 255, b: 255 }); // White color for all LEDs
+        db.ref(`leds/led${i}`).set({ r: 255, g: 255, b: 255 });
     }
     console.log("All LEDs turned on with white color on page load");
 });
@@ -160,11 +176,11 @@ for (let i = 1; i <= 5; i++) {
 
         // Turn on this LED with a color
         const colors = [
-            { r: 255, g: 192, b: 203 }, // Pink
-            { r: 0, g: 0, b: 255 }, // Blue
-            { r: 255, g: 192, b: 203 }, // Pink
-            { r: 0, g: 0, b: 255 }, // Blue
-            { r: 255, g: 192, b: 203 }, // Pink
+            { r: 255, g: 255, b: 255 }, // Pink
+            { r: 255, g: 255, b: 255 }, // Blue
+            { r: 255, g: 255, b: 255 }, // Pink
+            { r: 255, g: 255, b: 255 }, // Blue
+            { r: 255, g: 255, b: 255 }, // Pink
         ];
 
         const ledColor = colors[(i - 1) % colors.length];
@@ -451,26 +467,6 @@ for (let i = 1; i <= 5; i++) {
     });
 };
 
-// Close focused view when clicking outside the painting
-overlay.addEventListener('click', (event) => {
-    if (event.target === overlay) {
-        overlay.classList.remove('active');
-        // Turn on all LEDs with white color when exiting focus mode
-        for (let i = 1; i <= 5; i++) {
-            db.ref(`leds/led${i}`).set({ r: 255, g: 255, b: 255 }); // White color
-        }
-        console.log("All LEDs turned on with white color when exiting focus mode");
-        activeLedId = null; // Reset the active LED ID
-
-        // Show the appropriate navigation button based on current wall
-        if (currentWall === 1) {
-            navButton.style.display = 'flex';
-        } else {
-            backButton.style.display = 'flex';
-        }
-    }
-});
-
 // Helper function to convert RGB to HEX
 function rgbToHex(r, g, b) {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
@@ -577,11 +573,11 @@ adminSubmit.addEventListener('click', () => {
         document.getElementById('reset-all-leds').addEventListener('click', () => {
             // Turn on all LEDs with their respective colors
             const colors = [
-                { r: 255, g: 192, b: 203 }, // Pink
-                { r: 0, g: 0, b: 255 }, // Blue
-                { r: 255, g: 192, b: 203 }, // Pink
-                { r: 0, g: 0, b: 255 }, // Blue
-                { r: 255, g: 192, b: 203 }, // Pink
+                { r: 255, g: 255, b: 255 }, // Pink
+                { r: 255, g: 255, b: 255 }, // Blue
+                { r: 255, g: 255, b: 255 }, // Pink
+                { r: 255, g: 255, b: 255 }, // Blue
+                { r: 255, g: 255, b: 255 }, // Pink
             ];
 
             for (let i = 1; i <= 5; i++) {
@@ -614,11 +610,11 @@ adminSubmit.addEventListener('click', () => {
 // Function to test LEDs in sequence
 function testLEDs() {
     const colors = [
-        { r: 255, g: 192, b: 203 }, // Pink
-        { r: 0, g: 0, b: 255 }, // Blue
-        { r: 255, g: 192, b: 203 }, // Pink
-        { r: 0, g: 0, b: 255 }, // Blue
-        { r: 255, g: 192, b: 203 }, // Pink
+        { r: 255, g: 255, b: 255 }, // Pink
+        { r: 255, g: 255, b: 255 }, // Blue
+        { r: 255, g: 255, b: 255 }, // Pink
+        { r: 255, g: 255, b: 255 }, // Blue
+        { r: 255, g: 255, b: 255 }, // Pink
     ];
     // Turn on each LED for 1 second
     let i = 1;
