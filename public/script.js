@@ -452,8 +452,6 @@ for (let i = 1; i <= 5; i++) {
             }
         };
 
-        // Add event listener for keyboard navigation
-        document.addEventListener('keydown', handleKeyNavigation);
 
         // Remove event listener when overlay is closed
         closeButton.addEventListener('click', () => {
